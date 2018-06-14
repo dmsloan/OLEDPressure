@@ -218,9 +218,7 @@ void loop() {
   display.setTextSize(4);
   display.print(temperature);
   delay(1000);
-  display.setCursor(0,0);
-  display.setTextColor(BLACK);
-  display.print(temperature);
+  display.fillScreen(BLACK);
 }
 
 void testlines(uint16_t color) {
