@@ -124,7 +124,8 @@ void setup(void) {
   
   Serial.println(time, DEC);
   delay(500);
-   
+  /*
+
   lcdTestPattern();
   delay(1000);
   
@@ -165,7 +166,7 @@ void setup(void) {
   
   testtriangles();
   delay(500);
-
+*/
   display.fillScreen(BLACK);
 
   Serial.println("done");
@@ -185,13 +186,13 @@ void loop() {
   display.setTextSize(3);
   display.print(altitude);
   delay(1000);
-  display.setTextColor(RED);
+  display.setCursor(0,0);
+  display.setTextColor(BLACK);
   display.print(altitude);
  
   //float pressure = myPressure.readPressure();
   //Serial.print("Pressure(Pa):");
   //Serial.print(pressure, 2);
-sdf
   //float temperature = myPressure.readTemp();
   //Serial.print(" Temp(c):");
   //Serial.print(temperature, 2);
@@ -217,6 +218,7 @@ sdf
   display.setTextSize(4);
   display.print(temperature);
   delay(1000);
+  display.setCursor(0,0);
   display.setTextColor(BLACK);
   display.print(temperature);
 }
