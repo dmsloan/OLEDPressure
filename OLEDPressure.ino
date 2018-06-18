@@ -29,19 +29,7 @@
  .setModeActive() Start taking measurements!
  .setOversampleRate(byte) Sets the # of samples from 1 to 128. See datasheet.
  .enableEventFlags() Sets the fundamental event flags. Required during setup.
- 
  */
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*************************************************** 
@@ -62,11 +50,11 @@
   BSD license, all text above must be included in any redistribution
  ****************************************************/
 
-
+// Setup the display pins
 // You can use any (4 or) 5 pins 
 #define sclk 13
 #define mosi 11
-#define cs   10
+#define cs   7 // was 10 had to change to run the 8*8 matrix, chip select
 #define rst  9
 #define dc   8
 
@@ -81,15 +69,27 @@
 #define YELLOW          0xFFE0  
 #define WHITE           0xFFFF
 
-#include <Adafruit_GFX.h>
+
+// include the graphics library code:
+#include <Adafruit_GFX.h> //-----( Import library that processes graphics )-----
+// include the library code for the 0.96" 16-bit Color OLED with SSD1331 driver chip:
 #include <Adafruit_SSD1331.h>
+// include the library code for the shift register in the matrix display:
+#include <Max72xxPanel.h> //-----( Import library for the Max72xx that controls the matrix)----- DEPENDS on the Adafruit_GFX.h library
+// include the library code for the altimeter, barometric pressure sensor, temperature:
+#include <SparkFunMPL3115A2.h>
 #include <SPI.h>
 #include <Wire.h>
-#include <SparkFunMPL3115A2.h>
+
+// Set up the matrix
+//  DIN to MOSI(pin11 on the Uno) and CLK to SCK(pin13 on the Uno) (cf http://arduino.cc/en/Reference/SPI )
+int pinCS = 10; // Attach CS to this pin Chip Select
+int numberOfHorizontalDisplays = 1;
+int numberOfVerticalDisplays = 1;
+//Max72xxPanel matrix = Max72xxPanel(pinCS, numberOfHorizontalDisplays, numberOfVerticalDisplays);
 
 //Create an instance of the pressure object
 MPL3115A2 myPressure;
-
 
 // Option 1: use any pins but a little slower
 Adafruit_SSD1331 display = Adafruit_SSD1331(cs, dc, mosi, sclk, rst);  
@@ -102,7 +102,12 @@ Adafruit_SSD1331 display = Adafruit_SSD1331(cs, dc, mosi, sclk, rst);
 
 float p = 3.1415926;
 
-void setup(void) {
+void setup(void)
+{
+//  matrix.setIntensity(0);
+//  matrix.setRotation(2);
+//  matrix.fillScreen(LOW);    
+  
   Wire.begin();        // Join i2c bus
   Serial.begin(9600);  // Start serial for output
 
@@ -115,7 +120,7 @@ void setup(void) {
   myPressure.enableEventFlags(); // Enable all three pressure and temp event flags 
 
   Serial.print("hello!");
-  display.begin();
+  display.begin(); // Get OLED online
 
   Serial.println("init");
   uint16_t time = millis();
@@ -124,7 +129,8 @@ void setup(void) {
   
   Serial.println(time, DEC);
   delay(500);
-  /*
+
+
 
   lcdTestPattern();
   delay(1000);
@@ -166,7 +172,7 @@ void setup(void) {
   
   testtriangles();
   delay(500);
-*/
+
   display.fillScreen(BLACK);
 
   Serial.println("done");
@@ -218,7 +224,9 @@ void loop() {
   display.setTextSize(4);
   display.print(temperature);
   delay(1000);
-  display.fillScreen(BLACK);
+  display.setCursor(0,0);
+  display.setTextColor(BLACK);
+  display.print(temperature);
 }
 
 void testlines(uint16_t color) {
