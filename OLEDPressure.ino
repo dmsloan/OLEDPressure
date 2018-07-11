@@ -19,7 +19,8 @@
  Available functions:
  .begin() Gets sensor on the I2C bus.
  .readAltitude() Returns float with meters above sealevel. Ex: 1638.94
- .readAltitudeFt() Returns float with feet above sealevel. Ex: 5376.68
+ .readAltitudeFt() Returns float with feet above sealevel. Ex: 5376.68 6100 Rod is reported to be 1,201 ft, 9121 De Garmo Ave is 879
+  according to https://www.whatismyelevation.com
  .readPressure() Returns float with barometric pressure in Pa. Ex: 83351.25
  .readTemp() Returns float with current temperature in Celsius. Ex: 23.37
  .readTempF() Returns float with current temperature in Fahrenheit. Ex: 73.96
