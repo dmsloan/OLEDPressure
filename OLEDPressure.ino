@@ -110,7 +110,7 @@ void setup(void)
 //  matrix.fillScreen(LOW);    
   
   Wire.begin();        // Join i2c bus
-  Serial.begin(9600);  // Start serial for output
+  Serial.begin(115200);  // Start serial for output
 
   myPressure.begin(); // Get sensor online
 
@@ -120,7 +120,7 @@ void setup(void)
   myPressure.setOversampleRate(7); // Set Oversample to the recommended 128
   myPressure.enableEventFlags(); // Enable all three pressure and temp event flags 
 
-  Serial.print("hello!");
+  Serial.println("This sketch is called OLEDPressure.ino");
   display.begin(); // Get OLED online
 
   Serial.println("init");
